@@ -74,18 +74,23 @@ function output_table_row( $row, $fields, $red_or_green ) {
 
 <h1>IMD Postcode Checker</h1>
 
+<!-- <details>
+<summary>What is this?</summary>
+The Indices of Multiple Deprivation.
+</details> -->
+
 <form action="./index.php" method="get">
 	<label for="postcodes">
 		Enter Postcodes<br>
-		<span class="more-detail">Enter one postcode per line. Click the Submit button when ready to check them against the IMD.</span><br>
+		<span class="more-detail">Enter one postcode per line. Press the <i>Search IMD</i> button when ready to check them against the IMD.</span><br>
 	</label>
 	<textarea id="postcodes" name="p" rows="6\"><?php echo postcodes_for_textarea(); ?></textarea><br>
-	<input type="submit" value="Submit">
+	<button type="submit">Search IMD</button>
 </form><br>
 
 <?php if ( ! empty( $_GET['p'] ) ) : ?>
 
-<table border="1" cellspacing="0" cellpadding="3">
+<table border="0" cellspacing="0" cellpadding="3">
 	<tr>
 		<th>Postcode</th>
 		<th>LSOA Name</th>
@@ -105,9 +110,9 @@ if ( ! empty( $_GET['p'] ) ) {
 	if ( $row_count > 0 ) {
 		foreach ( $imd_data as $row ) {
 			if ( $row['imd_decile'] == '1' ) {
-				$red_or_green = 'green';
+				$red_or_green = '#222';
 			} else {
-				$red_or_green = 'red';
+				$red_or_green = '#bbb';
 			}
 			echo output_table_row( $row, $fields_to_output, $red_or_green );
 		}
