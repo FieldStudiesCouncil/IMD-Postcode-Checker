@@ -68,7 +68,8 @@ function output_table_row( $row, $fields, $red_or_green ) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>IMD Postcode Checker</title>
-</head>
+	<link rel="stylesheet" href="./style.css">
+	</head>
 <body>
 
 <h1>IMD Postcode Checker</h1>
