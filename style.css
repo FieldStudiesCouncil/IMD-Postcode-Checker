@@ -1,12 +1,12 @@
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 ul[class],
 ol[class] {
-	padding: 0;
+  padding: 0;
 }
 
 body,
@@ -23,58 +23,132 @@ figcaption,
 blockquote,
 dl,
 dd {
-	margin: 0;
+  margin: 0;
 }
 
 body {
-	min-height: 100vh;
-	scroll-behavior: smooth;
-	text-rendering: optimizeSpeed;
-	line-height: 1.5;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
 }
 
 ul[class],
 ol[class] {
-	list-style: none;
+  list-style: none;
 }
 
 a:not([class]) {
-	text-decoration-skip-ink: auto;
+  text-decoration-skip-ink: auto;
 }
 
 img {
-	max-width: 100%;
-	display: block;
+  max-width: 100%;
+  display: block;
 }
 
-article>*+* {
-	margin-top: 1em;
+article > * + * {
+  margin-top: 1em;
 }
 
 input,
 button,
 textarea,
 select {
-	font: inherit;
+  font: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	* {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
-	}
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 body {
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  max-width: 60ch;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1em;
 }
 
 .flow {
-	--flow-space: 1em;
+  --flow-space: 1em;
 }
 
-.flow>*+* {
-	margin-top: var(--flow-space);
+.flow > * + * {
+  margin-top: var(--flow-space);
+}
+
+h1 {
+  line-height: 2.5em;
+}
+
+label {
+  font-weight: bold;
+  font-size: 1.25rem;
+  line-height: 1rem;
+}
+
+.more-detail {
+  font-size: .85rem;
+  font-weight: normal;
+  color: rgb(105, 105, 105);
+}
+
+textarea {
+  max-width: 60ch;
+  min-width: 100%;
+  margin: .5em 0;
+  padding: .25em .5em;
+}
+
+button {
+  font-weight: bold;
+  padding: .5em 1em;
+  background-color: yellow;
+  color: black;
+  border: 2px solid black;
+  box-shadow: 3px 3px black;
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: initial;
+}
+
+table {
+  max-width: 60ch;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td,
+textarea {
+  border: 1px solid #555;
+}
+
+table,
+tr,
+td,
+th {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+th {
+  text-align: left;
+}
+
+th:nth-child(3),
+th:nth-child(4),
+td:nth-child(3),
+td:nth-child(4) {
+  text-align: right;
 }
