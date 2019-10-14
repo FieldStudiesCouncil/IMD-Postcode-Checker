@@ -1,0 +1,4 @@
+.vscode/
+
+db/*
+!db/imd.sqlite3.7z
