@@ -109,7 +109,7 @@ if ( ! empty( $_GET['p'] ) ) {
 	$row_count = (int) $imd_data_count->fetchColumn();
 	if ( $row_count > 0 ) {
 		foreach ( $imd_data as $row ) {
-			if ( $row['imd_decile'] == '1' ) {
+			if ( $row['imd_decile'] === '1' ) {
 				$red_or_green = '#222';
 			} else {
 				$red_or_green = '#bbb';
