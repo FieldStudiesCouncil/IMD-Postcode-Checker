@@ -84,13 +84,13 @@ The Indices of Multiple Deprivation.
 		Enter Postcodes<br>
 		<span class="more-detail">Enter one postcode per line. Press the <i>Search IMD</i> button when ready to check them against the IMD.</span><br>
 	</label>
-	<textarea id="postcodes" name="p" rows="6\"><?php echo postcodes_for_textarea(); ?></textarea><br>
+	<textarea id="postcodes" name="p" rows="6"><?php echo postcodes_for_textarea(); ?></textarea><br>
 	<button type="submit">Search IMD</button>
 </form><br>
 
 <?php if ( ! empty( $_GET['p'] ) ) : ?>
 
-<table border="0" cellspacing="0" cellpadding="3">
+<table>
 	<tr>
 		<th>Postcode</th>
 		<th>LSOA Name</th>
