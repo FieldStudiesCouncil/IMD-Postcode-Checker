@@ -89,14 +89,21 @@ h1 {
 
 label {
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   line-height: 1rem;
 }
 
 .more-detail {
+  display: block;
+  line-height: 1.25em;
   font-size: .85rem;
   font-weight: normal;
   color: rgb(105, 105, 105);
+  margin: .25em 0;
+}
+
+.more-detail + br {
+  display: none;
 }
 
 textarea {
