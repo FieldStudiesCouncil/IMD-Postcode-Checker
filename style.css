@@ -123,7 +123,7 @@ button {
 }
 
 button:active {
-  transform: translateY(3px);
+  transform: translateX(3px) translateY(3px);
   box-shadow: initial;
 }
 
