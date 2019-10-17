@@ -211,7 +211,7 @@ td:nth-child(4) {
 details {
   background-color: #eee;
   border: 2px solid var(--dark);
-  margin-bottom: 1em;
+  margin: 2em 0;
   font-size: .9em
 }
 
@@ -242,7 +242,8 @@ details h3 {
   margin-bottom: 0;
 }
 
-a:focus {
+a:focus,
+summary:focus > h2 {
   background-color: var(--highlight);
   box-shadow: 0 -2px var(--highlight), 0 4px var(--dark);
   text-decoration: none;
@@ -251,16 +252,27 @@ a:focus {
 
 input:focus,
 textarea:focus,
-summary:focus {
+input:hover,
+textarea:hover {
   outline: 4px solid var(--highlight);
   outline-offset: 0px;
 }
 
-summary:focus {
+summary:hover,
+details[open]:focus {
   outline: 4px solid var(--highlight);
   outline-offset: 2px;
 }
 
-button:focus {
+details[open] {
+  outline-offset: 0px;
+}
+
+details[open] > summary {
+  outline: none;
+}
+
+button:focus,
+button:hover {
   background-color: var(--highlight)
 }
