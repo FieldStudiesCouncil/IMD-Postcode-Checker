@@ -17,7 +17,7 @@ function get_postcodes_array() {
 // Get the decile value from the query string and validate it, or return a
 // default value if there is no user input
 function get_decile_int() {
-	$opt = [
+	$options = [
 		'options' => [
 			'default'   => 10,
 			'min_range' => 1,
@@ -25,7 +25,14 @@ function get_decile_int() {
 		],
 	];
 
-	return filter_input( INPUT_GET, 'd', FILTER_VALIDATE_INT, $opt );
+	return filter_input( INPUT_GET, 'd', FILTER_VALIDATE_INT, $options );
+}
+
+function add_quotes_and_comma( $str ) {
+	if ( ! empty( $str ) ) {
+		$str = trim( $str );
+		return "'$str',";
+	}
 }
 
 // Convert the postcodes to comma-delimited quoted list; e.g., 'TN33 0PF','BN4 1UH'
@@ -34,7 +41,7 @@ function postcodes_for_sql() {
 	$out       = '';
 
 	foreach ( $postcodes as $postcode ) {
-			$out .= "'" . trim( $postcode ) . "',";
+		$out .= add_quotes_and_comma( $postcode );
 	}
 
 	return rtrim( $out, ',' );
@@ -73,7 +80,7 @@ $postcodes_for_sql = postcodes_for_sql();
 $decile_for_sql    = get_decile_int();
 
 // Initialise the SQLite database
-$db                = new PDO( 'sqlite:./db/imd.sqlite3' );
+$db = new PDO( 'sqlite:./db/imd.sqlite3' );
 
 // Get a count of postcodes matching those entered into the textarea. This is
 // used prevent empty results from rendering.
@@ -90,13 +97,15 @@ $imd_data = $db->query(
 		imd.imd_decile
 	FROM
 		imd19 AS imd
-	INNER JOIN onspd_aug19 AS onspd ON imd.lsoa_code_11 = onspd.lsoa11
+	INNER JOIN
+		onspd_aug19 AS onspd ON imd.lsoa_code_11 = onspd.lsoa11
 	WHERE
-		onspd.pcds IN (
-			$postcodes_for_sql
-		)
-	AND imd.imd_decile <= $decile_for_sql"
+		onspd.pcds IN (	$postcodes_for_sql )
+	AND
+		imd.imd_decile <= $decile_for_sql"
 );
+
+var_dump( $imd_data );
 
 ?>
 
@@ -119,6 +128,7 @@ $imd_data = $db->query(
 
 <details>
 	<summary><h2>What is this?</h2></summary>
+
 	<p>This tool enables you to look up the Index of Multiple Deprivation rank for a list of postcodes. The lower the rank, the more deprived the area.</p>
 
 	<p>The results can be limited to a maximum decile value. A <i>decile</i> is a range divided into 10 chunks similar to the way a percentage is a range divided into 100 chunks. A decile of 1 means the postcode is in the bottom 10% of of the deprivation index, a decile of 2 means the postcode is in the bottom 20%, and so on.</p>
@@ -183,6 +193,7 @@ if ( ! empty( $_GET['p'] ) ) {
 	$fields_to_output = array( 'pcds', 'lsoa_name_11', 'imd_rank', 'imd_decile' );
 
 	$row_count = (int) $imd_data_count->fetchColumn();
+
 	if ( $row_count > 0 ) {
 		foreach ( $imd_data as $row ) {
 			echo output_table_row( $row, $fields_to_output );
@@ -192,7 +203,6 @@ if ( ! empty( $_GET['p'] ) ) {
 		echo '<tr><td colspan="' . count( $fields_to_output ) . '">No results found.</td></tr></table>';
 	}
 }
-
 ?>
 </main>
 
