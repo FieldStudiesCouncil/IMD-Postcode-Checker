@@ -205,7 +205,7 @@ if ( ! empty( $_GET['p'] ) ) {
 
 <footer>
 	<div class="footer-content">
-		<p>The IMD Checker is a tiny thing made entirely with lean, boring, code and open data.</p>
+		<p>The IMD Checker is a tiny thing made entirely with lean, boring, code, open data and ❤️.</p>
 		<p>Copyright &copy; <?php echo gmdate( 'Y' ); ?> Charles Roper</p>
 		<p style="margin-top: 2em">Contains OS data &copy; Crown copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
 		<p>Contains Royal Mail data © Royal Mail copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
