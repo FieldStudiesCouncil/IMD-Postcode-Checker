@@ -104,9 +104,6 @@ $imd_data = $db->query(
 	AND
 		imd.imd_decile <= $decile_for_sql"
 );
-
-var_dump( $imd_data );
-
 ?>
 
 <!DOCTYPE html>
