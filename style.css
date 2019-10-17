@@ -180,6 +180,10 @@ input {
   border-width: 2px;
 }
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 table,
 tr,
 td,

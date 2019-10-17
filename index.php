@@ -167,7 +167,7 @@ $imd_data = $db->query(
 		Max Decile
 		<span class="more-detail">Enter a number between 1 and 10, with 1 being the bottom 10%, 2 the bottom 20% and so on. <strong>Leave blank to include all deciles.</strong></span>
 	</label>
-	<input type="text" name="d" id="decile" value="<?php echo decile_for_input(); ?>">
+	<input type="number" min="1" max="10" name="d" id="decile" value="<?php echo decile_for_input(); ?>">
 	<button type="submit">Search IMD</button>
 </form><br>
 
