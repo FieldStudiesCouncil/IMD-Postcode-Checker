@@ -1,3 +1,9 @@
+:root {
+  --highlight: #ffe600;
+  --dark: #555;
+  --button: #6DC9F6;
+}
+
 *,
 *::before,
 *::after {
@@ -141,7 +147,7 @@ input {
 button {
   font-weight: bold;
   padding: .5em 1em;
-  background-color: yellow;
+  background-color: var(--button);
   color: black;
   border: 2px solid black;
   box-shadow: 3px 3px black;
@@ -199,15 +205,19 @@ td:nth-child(4) {
 }
 
 details {
-  padding: .5em;
   background-color: #eee;
-  border: 1px solid #ddd;
+  border: 2px solid var(--dark);
   margin-bottom: 1em;
   font-size: .9em
 }
 
 details > summary {
   cursor: pointer;
+  padding: .5em;
+}
+
+details > *:not(summary) {
+  margin: 1em;
 }
 
 details > * + * {
@@ -222,4 +232,31 @@ details h2,
 details h3 {
   font-size: 1rem;
   display: inline-block;
+}
+
+details h3 {
+  margin-bottom: 0;
+}
+
+a:focus {
+  background-color: var(--highlight);
+  box-shadow: 0 -2px var(--highlight), 0 4px var(--dark);
+  text-decoration: none;
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+summary:focus {
+  outline: 4px solid var(--highlight);
+  outline-offset: 0px;
+}
+
+summary:focus {
+  outline: 4px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+button:focus {
+  background-color: var(--highlight)
 }
