@@ -1,7 +1,12 @@
 :root {
-  --highlight: #ffe600;
-  --dark: #555;
   --button: #6DC9F6;
+  --highlight: #ffe600;
+  --light-extra: #fff;
+  --light: #eee;
+  --med-light: #ccc;
+  --med: #909090;
+  --dark: #555;
+  --dark-extra: #000;
 }
 
 *,
@@ -87,8 +92,8 @@ main,
 }
 
 footer {
-  background-color: #000;
-  color: white;
+  background-color: var(--dark-extra);
+  color: var(--light-extra);
   width: 100%;
   margin: 0;
   padding: 1rem 0;
@@ -128,7 +133,7 @@ label {
   line-height: 1.25em;
   font-size: .85rem;
   font-weight: normal;
-  color: rgb(105, 105, 105);
+  color: var(--dark);
   margin: .5em 0 -.5em 0;
 }
 
@@ -140,7 +145,6 @@ textarea,
 input {
   max-width: 60ch;
   min-width: 100%;
-  /* margin: .5em 0; */
   padding: .5em .5em;
 }
 
@@ -148,9 +152,9 @@ button {
   font-weight: bold;
   padding: .5em 1em;
   background-color: var(--button);
-  color: black;
-  border: 2px solid black;
-  box-shadow: 3px 3px black;
+  color: var(--dark-extra);
+  border: 2px solid var(--dark-extra);
+  box-shadow: 3px 3px var(--dark-extra);
   display: block;
 }
 
@@ -171,8 +175,13 @@ th,
 td,
 textarea,
 input {
-  border: 1px solid #555;
+  border: 1px solid var(--dark);
   line-height: 2em;
+}
+
+th,
+td {
+  border-color: var(--med-light);
 }
 
 textarea,
@@ -209,7 +218,7 @@ td:nth-child(4) {
 }
 
 details {
-  background-color: #eee;
+  background-color: var(--light);
   border: 2px solid var(--dark);
   margin: 2em 0;
   font-size: .9em
@@ -245,7 +254,7 @@ details h3 {
 a:focus,
 summary:focus > h2 {
   background-color: var(--highlight);
-  box-shadow: 0 -2px var(--highlight), 0 4px var(--dark);
+  box-shadow: 0 -2px var(--highlight), 0 4px var(--dark-extra);
   text-decoration: none;
   outline: none;
 }
@@ -275,4 +284,33 @@ details[open] > summary {
 button:focus,
 button:hover {
   background-color: var(--highlight)
+}
+
+.footer-separate {
+  margin-top: 2em;
+}
+
+.github a {
+  display: inline-flex;
+  align-items: center;
+  color: var(--light-extra);
+  /* font-weight: bold; */
+}
+
+.github svg {
+  height: 2em;
+  margin-right: .5em;
+}
+
+.github a:focus,
+.github a:hover {
+  color: var(--dark-extra);
+  box-shadow: none;
+  background-color: var(--highlight);
+}
+
+.github a:focus svg > path,
+.github a:hover svg > path {
+  fill: var(--dark-extra);
+  background-color: var(--highlight);
 }
