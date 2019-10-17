@@ -1,7 +1,7 @@
 # IMD Postcode Checker
 
-The IMD Postcode Checker is a tiny thing made entirely with lean, boring, code,
-open data and ❤️.
+The IMD Postcode Checker is a tiny thing made with lean but boring code,
+open data and plenty of ❤️.
 
 The tool enables you to look up the Index of Multiple Deprivation rank for a
 list of postcodes. The lower the rank, the more deprived the area.
@@ -40,9 +40,9 @@ weights:
 
 ## Technical notes
 
-The tool is just a single PHP file, a stylesheet and a SQLite database
-containing some stipped back ONSPD and IMD data. Specifically, we're using only
-the following columns:
+The tool is a single PHP file, a stylesheet and an SQLite database containing
+some stripped-back ONSPD and IMD data. Specifically, we're using only the
+following columns from those data sets:
 
     onspd.pcds
     imd.lsoa_name_11
