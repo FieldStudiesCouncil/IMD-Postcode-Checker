@@ -197,3 +197,29 @@ td:nth-child(4) {
 .flags > svg {
   height: 1em;
 }
+
+details {
+  padding: .5em;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  margin-bottom: 1em;
+  font-size: .9em
+}
+
+details > summary {
+  cursor: pointer;
+}
+
+details > * + * {
+  margin-top: 1em
+}
+
+details > ul {
+  list-style-type: disc;
+}
+
+details h2,
+details h3 {
+  font-size: 1rem;
+  display: inline-block;
+}
