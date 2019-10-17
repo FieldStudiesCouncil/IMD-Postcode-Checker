@@ -206,10 +206,10 @@ if ( ! empty( $_GET['p'] ) ) {
 <footer>
 	<div class="footer-content">
 		<p>The IMD Checker is a tiny thing made entirely with lean, boring, code and open data.</p>
-		<p>Copyright &copy; <?php echo date( 'Y' ); ?> Charles Roper</p>
-		<p style="margin-top: 2em">Contains OS data &copy; Crown copyright and database rights <?php echo date( 'Y' ); ?></p>
-		<p>Contains Royal Mail data © Royal Mail copyright and database rights <?php echo date( 'Y' ); ?></p>
-		<p>Contains National Statistics data © Crown copyright and database rights <?php echo date( 'Y' ); ?></p>
+		<p>Copyright &copy; <?php echo gmdate( 'Y' ); ?> Charles Roper</p>
+		<p style="margin-top: 2em">Contains OS data &copy; Crown copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
+		<p>Contains Royal Mail data © Royal Mail copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
+		<p>Contains National Statistics data © Crown copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
 		<p style="margin-top: 2em">Made in The United Kingdom of Great Britain and Ireland, Europe.</p>
 		<div class="flags">
 			<svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 512 342"><path fill="#f0f0f0" d="M0 0h512v341H0z"/><path fill="#d80027" fill-rule="nonzero" d="M288 0h-64v139H0v64h224v138h64V203h224v-64H288V0z"/><path fill="#039" fill-rule="nonzero" d="M394 230l118 66v-66H394z"/><path fill="#0052b4" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#039" fill-rule="nonzero" d="M459 341l-147-81v81h147z"/><path fill="#f0f0f0" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#d80027" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#039" fill-rule="nonzero" d="M90 230L0 280v-50h90zM200 244v97H25l175-97z"/><path fill="#d80027" fill-rule="nonzero" d="M144 230L0 310v31l200-111h-56z"/><path fill="#039" fill-rule="nonzero" d="M118 111L0 46v65h118z"/><path fill="#0052b4" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#039" fill-rule="nonzero" d="M53 0l147 82V0H53z"/><path fill="#f0f0f0" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#d80027" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#039" fill-rule="nonzero" d="M422 111l90-50v50h-90zM312 97V0h175L312 97z"/><path fill="#d80027" fill-rule="nonzero" d="M368 111l144-80V0L312 111h56z"/></svg>
