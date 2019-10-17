@@ -205,19 +205,19 @@ if ( ! empty( $_GET['p'] ) ) {
 
 <footer>
 	<div class="footer-content">
-		<p>The IMD Checker is a tiny thing made with lean but boring code, some open data, and plenty of ❤️.</p>
+		<p>The IMD Checker is a tiny thing made with <a href="https://gtmetrix.com/reports/www.fscbiodiversity.uk/NI7zKkRM">lean</a> but boring code, some open data, and plenty of ❤️.</p>
 		<p>Copyright &copy; <?php echo gmdate( 'Y' ); ?> Charles Roper.</p>
-		
+
 		<p class="footer-separate github"><span>
 			<a href="https://github.com/charlesroper/IMD-Postcode-Checker">
 				<svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 136 133"><path fill="#fff" d="M68 0a68 68 0 00-22 132c4 1 5-1 5-3v-12c-19 5-23-9-23-9-3-7-7-10-7-10-7-4 0-4 0-4 7 1 10 7 10 7 6 11 16 8 20 6l4-9c-15-2-30-8-30-34 0-7 2-13 7-18-1-2-3-9 0-18 0 0 6-2 19 7a65 65 0 0134 0c13-9 19-7 19-7 3 9 1 16 0 18 5 5 7 11 7 18 0 26-16 32-31 34 3 2 5 6 5 12v19c0 2 1 4 4 3A68 68 0 0068 0"/></svg>Source available on GitHub.</span>
 			</a>
 		</p>
-		
+
 		<p class="footer-separate">Contains OS data &copy; Crown copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
 		<p>Contains Royal Mail data © Royal Mail copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
 		<p>Contains National Statistics data © Crown copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
-		
+
 		<p class="footer-separate">Made in The United Kingdom of Great Britain and Ireland, Europe.</p>
 		<div class="flags">
 			<svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 512 342"><path fill="#f0f0f0" d="M0 0h512v341H0z"/><path fill="#d80027" fill-rule="nonzero" d="M288 0h-64v139H0v64h224v138h64V203h224v-64H288V0z"/><path fill="#039" fill-rule="nonzero" d="M394 230l118 66v-66H394z"/><path fill="#0052b4" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#039" fill-rule="nonzero" d="M459 341l-147-81v81h147z"/><path fill="#f0f0f0" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#d80027" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#039" fill-rule="nonzero" d="M90 230L0 280v-50h90zM200 244v97H25l175-97z"/><path fill="#d80027" fill-rule="nonzero" d="M144 230L0 310v31l200-111h-56z"/><path fill="#039" fill-rule="nonzero" d="M118 111L0 46v65h118z"/><path fill="#0052b4" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#039" fill-rule="nonzero" d="M53 0l147 82V0H53z"/><path fill="#f0f0f0" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#d80027" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#039" fill-rule="nonzero" d="M422 111l90-50v50h-90zM312 97V0h175L312 97z"/><path fill="#d80027" fill-rule="nonzero" d="M368 111l144-80V0L312 111h56z"/></svg>
