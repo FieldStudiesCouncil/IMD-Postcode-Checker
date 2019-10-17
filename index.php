@@ -40,13 +40,16 @@ function postcodes_for_sql() {
 	return rtrim( $out, ',' );
 }
 
-// Convert postcodes from array to string with newline between each postcode
+// Convert postcodes from array to string with newline between each postcode so
+// they can be stuffed back into the textarea
 function postcodes_for_textarea() {
 	$postcodes = get_postcodes_array();
 
 	return implode( "\n", $postcodes );
 }
 
+// Get either the current decile value from the query string, or an empty
+// string. This is used to populate the decile input field.
 function decile_for_input() {
 	$decile = get_decile_int();
 	if ( ! empty( $_GET['d'] ) ) {
@@ -56,6 +59,7 @@ function decile_for_input() {
 	}
 }
 
+// Function to render the table rows populated with database data.
 function output_table_row( $row, $fields ) {
 	$out = '<tr>';
 	foreach ( $fields as $field ) {
@@ -67,12 +71,17 @@ function output_table_row( $row, $fields ) {
 
 $postcodes_for_sql = postcodes_for_sql();
 $decile_for_sql    = get_decile_int();
+
+// Initialise the SQLite database
 $db                = new PDO( 'sqlite:./db/imd.sqlite3' );
 
+// Get a count of postcodes matching those entered into the textarea. This is
+// used prevent empty results from rendering.
 $imd_data_count = $db->query(
 	"SELECT COUNT() FROM onspd_aug19 WHERE onspd_aug19.pcds IN ( $postcodes_for_sql )"
 );
 
+// The main database query
 $imd_data = $db->query(
 	"SELECT
 		onspd.pcds,
@@ -114,7 +123,7 @@ $imd_data = $db->query(
 
 	<p>The results can be limited to a maximum decile value. A <i>decile</i> is a range divided into 10 chunks similar to the way a percentage is a range divided into 100 chunks. A decile of 1 means the postcode is in the bottom 10% of of the deprivation index, a decile of 2 means the postcode is in the bottom 20%, and so on.</p>
 
-	<h3>What is the IMD?</h2>
+	<h3>What is the IMD?</h3>
 
 	<p>The Index of Multiple Deprivation, commonly known as the IMD, is the official measure of relative deprivation for small areas in England.</p>
 
@@ -133,7 +142,7 @@ $imd_data = $db->query(
 		<li>Living Environment Deprivation (9.3%)</li>
 	</ul>
 
-	<h2>Data used in this tool</h2>
+	<h3>Data used in this tool</h3>
 
 	<ul>
 		<li><a href="https://www.ons.gov.uk/methodology/geography/geographicalproducts/postcodeproducts">ONS Postcode Directory (ONSPD)</a></li>
@@ -141,7 +150,7 @@ $imd_data = $db->query(
 	</ul>
 </details>
 
-<form action="./index.php" method="get" class="flow">
+<form action="./index.php#data" method="get" class="flow">
 	<label for="postcodes">
 		Enter Postcodes<br>
 		<span class="more-detail">Enter one postcode per line. Press the <i>Search IMD</i> button when ready to check them against the IMD.</span><br>
@@ -157,7 +166,7 @@ $imd_data = $db->query(
 
 <?php if ( ! empty( $_GET['p'] ) ) : ?>
 
-<table>
+<table id="data">
 	<tr>
 		<th>Postcode</th>
 		<th>LSOA Name</th>
@@ -189,7 +198,7 @@ if ( ! empty( $_GET['p'] ) ) {
 
 <footer>
 	<div class="footer-content">
-		<p>The IMD Checker is a tiny project made entirely with lean, boring, code.</p>
+		<p>The IMD Checker is a tiny thing made entirely with lean, boring, code and open data.</p>
 		<p>Copyright &copy; <?php echo date( 'Y' ); ?> Charles Roper</p>
 		<p style="margin-top: 2em">Contains OS data &copy; Crown copyright and database rights <?php echo date( 'Y' ); ?></p>
 		<p>Contains Royal Mail data © Royal Mail copyright and database rights <?php echo date( 'Y' ); ?></p>
