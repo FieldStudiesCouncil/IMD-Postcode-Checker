@@ -69,14 +69,35 @@ select {
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  max-width: 60ch;
+}
+
+header,
+main,
+.footer-content {
+  max-width: 70ch;
   margin-left: auto;
   margin-right: auto;
   padding: 0 1em;
 }
 
+footer {
+  background-color: #000;
+  color: white;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 0;
+}
+
+.footer-content > * + * {
+  margin-top: .5em;
+}
+
+.footer-content > p {
+  font-size: .8em;
+}
+
 .flow {
-  --flow-space: 1em;
+  --flow-space: 1.5em;
 }
 
 .flow > * + * {
@@ -90,6 +111,7 @@ h1 {
 }
 
 label {
+  display: block;
   font-weight: bold;
   font-size: 1.2rem;
   line-height: 1rem;
@@ -101,18 +123,19 @@ label {
   font-size: .85rem;
   font-weight: normal;
   color: rgb(105, 105, 105);
-  margin: .25em 0;
+  margin: .5em 0 -.5em 0;
 }
 
 .more-detail + br {
   display: none;
 }
 
-textarea {
+textarea,
+input {
   max-width: 60ch;
   min-width: 100%;
-  margin: .5em 0;
-  padding: .25em .5em;
+  /* margin: .5em 0; */
+  padding: .5em .5em;
 }
 
 button {
@@ -122,6 +145,7 @@ button {
   color: black;
   border: 2px solid black;
   box-shadow: 3px 3px black;
+  display: block;
 }
 
 button:active {
@@ -133,13 +157,21 @@ table {
   max-width: 60ch;
   min-width: 100%;
   border-collapse: collapse;
+  margin-bottom: 2em;
 }
 
 table,
 th,
 td,
-textarea {
+textarea,
+input {
   border: 1px solid #555;
+  line-height: 2em;
+}
+
+textarea,
+input {
+  border-width: 2px;
 }
 
 table,
@@ -160,4 +192,8 @@ th:nth-child(4),
 td:nth-child(3),
 td:nth-child(4) {
   text-align: right;
+}
+
+.flags > svg {
+  height: 1em;
 }

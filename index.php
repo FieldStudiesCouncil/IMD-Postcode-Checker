@@ -1,34 +1,73 @@
 <?php
 
-// Get postcodes from the query string, sanitize the input and convert to an array
+// Get postcodes from the query string, sanitize the input and convert to an
+// array
 function get_postcodes_array() {
 	$safe_postcodes = filter_input( INPUT_GET, 'p', FILTER_SANITIZE_STRING );
+
 	if ( empty( $safe_postcodes ) ) {
 		return array();
 	}
+
 	$safe_postcodes = explode( "\n", $safe_postcodes );
+
 	return array_map( 'strtoupper', $safe_postcodes );
 }
 
-// Convert postcodes to a comma-delimited quoted list; e.g., 'TN33 0PF','BN4 1UH'
+// Get the decile value from the query string and validate it, or return a
+// default value if there is no user input
+function get_decile_int() {
+	$opt = [
+		'options' => [
+			'default'   => 10,
+			'min_range' => 1,
+			'max_range' => 10,
+		],
+	];
+
+	return filter_input( INPUT_GET, 'd', FILTER_VALIDATE_INT, $opt );
+}
+
+// Convert the postcodes to comma-delimited quoted list; e.g., 'TN33 0PF','BN4 1UH'
 function postcodes_for_sql() {
 	$postcodes = get_postcodes_array();
 	$out       = '';
+
 	foreach ( $postcodes as $postcode ) {
 			$out .= "'" . trim( $postcode ) . "',";
 	}
+
 	return rtrim( $out, ',' );
 }
 
 // Convert postcodes from array to string with newline between each postcode
 function postcodes_for_textarea() {
 	$postcodes = get_postcodes_array();
+
 	return implode( "\n", $postcodes );
 }
 
-$postcodes_for_sql = postcodes_for_sql();
+function decile_for_input() {
+	$decile = get_decile_int();
+	if ( ! empty( $_GET['d'] ) ) {
+		return $decile;
+	} else {
+		return '';
+	}
+}
 
-$db = new PDO( 'sqlite:./db/imd.sqlite3' );
+function output_table_row( $row, $fields ) {
+	$out = '<tr>';
+	foreach ( $fields as $field ) {
+		$out .= '<td>' . $row[ $field ] . '</td>';
+	}
+	$out .= '</tr>';
+	return $out;
+}
+
+$postcodes_for_sql = postcodes_for_sql();
+$decile_for_sql    = get_decile_int();
+$db                = new PDO( 'sqlite:./db/imd.sqlite3' );
 
 $imd_data_count = $db->query(
 	"SELECT COUNT() FROM onspd_aug19 WHERE onspd_aug19.pcds IN ( $postcodes_for_sql )"
@@ -46,18 +85,9 @@ $imd_data = $db->query(
 	WHERE
 		onspd.pcds IN (
 			$postcodes_for_sql
-		)"
-	// AND imd.imd_decile = 1"
+		)
+	AND imd.imd_decile <= $decile_for_sql"
 );
-
-function output_table_row( $row, $fields, $red_or_green ) {
-	$out = "<tr style='color:$red_or_green'>";
-	foreach ( $fields as $field ) {
-		$out .= '<td>' . $row[ $field ] . '</td>';
-	}
-	$out .= '</tr>';
-	return $out;
-}
 
 ?>
 
@@ -72,19 +102,26 @@ function output_table_row( $row, $fields, $red_or_green ) {
 	</head>
 <body>
 
-<h1>IMD Postcode Checker</h1>
-
+<header>
+	<h1>IMD Postcode Checker</h1>
+</header>
 <!-- <details>
 <summary>What is this?</summary>
 The Indices of Multiple Deprivation.
 </details> -->
 
-<form action="./index.php" method="get">
+<main>
+<form action="./index.php" method="get" class="flow">
 	<label for="postcodes">
 		Enter Postcodes<br>
 		<span class="more-detail">Enter one postcode per line. Press the <i>Search IMD</i> button when ready to check them against the IMD.</span><br>
 	</label>
 	<textarea id="postcodes" name="p" rows="6"><?php echo postcodes_for_textarea(); ?></textarea><br>
+	<label for="decile">
+		Max Decile
+		<span class="more-detail">Enter a number between 1 and 10, with 1 being the bottom 10%, 2 the bottom 20% and so on. <strong>Leave blank to include all deciles.</strong></span>
+	</label>
+	<input type="text" name="d" id="decile" value="<?php echo decile_for_input(); ?>">
 	<button type="submit">Search IMD</button>
 </form><br>
 
@@ -109,12 +146,7 @@ if ( ! empty( $_GET['p'] ) ) {
 	$row_count = (int) $imd_data_count->fetchColumn();
 	if ( $row_count > 0 ) {
 		foreach ( $imd_data as $row ) {
-			if ( $row['imd_decile'] === '1' ) {
-				$red_or_green = '#222';
-			} else {
-				$red_or_green = '#bbb';
-			}
-			echo output_table_row( $row, $fields_to_output, $red_or_green );
+			echo output_table_row( $row, $fields_to_output );
 		}
 		echo '</table>';
 	} else {
@@ -123,6 +155,19 @@ if ( ! empty( $_GET['p'] ) ) {
 }
 
 ?>
+</main>
+
+<footer>
+	<div class="footer-content">
+		<p>The IMD Checker is a tiny project made entirely with lean, boring, code.</p>
+		<p>Copyright &copy; <?php echo date( 'Y' ); ?> Charles Roper</p>
+		<p>Made in The United Kingdom of Great Britain and Ireland, Europe.</p>
+		<div class="flags">
+			<svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 512 342"><path fill="#f0f0f0" d="M0 0h512v341H0z"/><path fill="#d80027" fill-rule="nonzero" d="M288 0h-64v139H0v64h224v138h64V203h224v-64H288V0z"/><path fill="#039" fill-rule="nonzero" d="M394 230l118 66v-66H394z"/><path fill="#0052b4" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#039" fill-rule="nonzero" d="M459 341l-147-81v81h147z"/><path fill="#f0f0f0" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#d80027" fill-rule="nonzero" d="M312 230l200 111v-31l-144-80h-56z"/><path fill="#039" fill-rule="nonzero" d="M90 230L0 280v-50h90zM200 244v97H25l175-97z"/><path fill="#d80027" fill-rule="nonzero" d="M144 230L0 310v31l200-111h-56z"/><path fill="#039" fill-rule="nonzero" d="M118 111L0 46v65h118z"/><path fill="#0052b4" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#039" fill-rule="nonzero" d="M53 0l147 82V0H53z"/><path fill="#f0f0f0" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#d80027" fill-rule="nonzero" d="M200 111L0 0v31l144 80h56z"/><path fill="#039" fill-rule="nonzero" d="M422 111l90-50v50h-90zM312 97V0h175L312 97z"/><path fill="#d80027" fill-rule="nonzero" d="M368 111l144-80V0L312 111h56z"/></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 512 342"><path fill="#039" d="M0 0h512v341H0z"/><path fill="#fc0" fill-rule="nonzero" d="M256 38l-6 18 9 3-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M256 38l6 18-9 3 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M274 51h-19v10l19-10z"/><path fill="#fc0" fill-rule="nonzero" d="M274 51l-15 11-6-7 21-4z"/><g><path fill="#fc0" fill-rule="nonzero" d="M267 72l-6-18-9 3 15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M267 72l-15-11 5-8 10 19z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M238 51h19v10l-19-10z"/><path fill="#fc0" fill-rule="nonzero" d="M238 51l15 11 6-7-21-4z"/><g><path fill="#fc0" fill-rule="nonzero" d="M245 72l6-18 9 3-15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M245 72l15-11-5-8-10 19z"/></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M256 265l-6 19 9 2-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M256 265l6 19-9 2 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M274 279h-19v9l19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M274 279l-15 11-6-8 21-3z"/><g><path fill="#fc0" fill-rule="nonzero" d="M267 300l-6-18-9 3 15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M267 300l-15-11 5-8 10 19z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M238 279h19v9l-19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M238 279l15 11 6-8-21-3z"/><g><path fill="#fc0" fill-rule="nonzero" d="M245 300l6-18 9 3-15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M245 300l15-11-5-8-10 19z"/></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M142 152l-6 18 9 3-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M142 152l6 18-9 3 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M160 165h-19v9l19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M160 165l-15 11-6-8 21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M153 186l-5-18-10 3 15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M153 186l-15-11 6-8 9 19z"/><g><path fill="#fc0" fill-rule="nonzero" d="M124 165h19v9l-19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M124 165l16 11 5-8-21-3z"/><g><path fill="#fc0" fill-rule="nonzero" d="M131 186l6-18 9 3-15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M131 186l15-11-5-8-10 19z"/></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M188 87l15-11-5-7-10 18z"/><path fill="#fc0" fill-rule="nonzero" d="M188 87l6-18 9 3-15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M181 66l15 11 6-7-21-4z"/><path fill="#fc0" fill-rule="nonzero" d="M181 66h19v10l-19-10z"/><g><path fill="#fc0" fill-rule="nonzero" d="M199 53l-6 18 9 3-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M199 53l6 18-9 3 3-21z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M210 87l-15-11 5-7 10 18z"/><path fill="#fc0" fill-rule="nonzero" d="M210 87l-6-18-9 3 15 15z"/><g><path fill="#fc0" fill-rule="nonzero" d="M217 66l-15 11-6-7 21-4z"/><path fill="#fc0" fill-rule="nonzero" d="M217 66h-19v10l19-10z"/></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M169 129l-6-18-9 3 15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M169 129l-16-11 6-8 10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M146 129l16-11-6-8-10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M146 129l6-18 9 3-15 15z"/><g><path fill="#fc0" fill-rule="nonzero" d="M139 108l16 11 5-8-21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M139 108h19v9l-19-9z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M176 108l-16 11-5-8 21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M176 108h-19v9l19-9z"/><g><path fill="#fc0" fill-rule="nonzero" d="M157 95l6 18-9 3 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M157 95l-5 18 9 3-4-21z"/></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M176 222h-19v9l19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M176 222l-16 11-5-8 21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M169 243l-6-18-9 3 15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M169 243l-16-11 6-8 10 19z"/><g><path fill="#fc0" fill-rule="nonzero" d="M146 243l16-11-6-8-10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M146 243l6-18 9 3-15 15z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M157 209l6 18-9 3 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M157 209l-5 18 9 3-4-21z"/><g><path fill="#fc0" fill-rule="nonzero" d="M139 222h19v9l-19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M139 222l16 11 5-8-21-3z"/></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M217 263h-19v10l19-10z"/><path fill="#fc0" fill-rule="nonzero" d="M217 263l-15 11-6-7 21-4z"/><path fill="#fc0" fill-rule="nonzero" d="M210 285l-6-18-9 2 15 16z"/><path fill="#fc0" fill-rule="nonzero" d="M210 285l-15-12 5-7 10 19z"/><g><path fill="#fc0" fill-rule="nonzero" d="M188 285l15-12-5-7-10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M188 285l6-18 9 2-15 16z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M199 250l6 18-9 3 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M199 250l-6 18 9 3-3-21z"/><g><path fill="#fc0" fill-rule="nonzero" d="M181 263h19v10l-19-10z"/><path fill="#fc0" fill-rule="nonzero" d="M181 263l15 11 6-7-21-4z"/></g></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M370 152l6 18-9 3 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M370 152l-6 18 9 3-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M352 165h19v9l-19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M352 165l15 11 6-8-21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M359 186l5-18 10 3-15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M359 186l15-11-6-8-9 19z"/><g><path fill="#fc0" fill-rule="nonzero" d="M388 165h-19v9l19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M388 165l-16 11-5-8 21-3z"/><g><path fill="#fc0" fill-rule="nonzero" d="M381 186l-6-18-9 3 15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M381 186l-15-11 5-8 10 19z"/></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M324 87l-15-11 5-7 10 18z"/><path fill="#fc0" fill-rule="nonzero" d="M324 87l-6-18-9 3 15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M331 66l-15 11-6-7 21-4z"/><path fill="#fc0" fill-rule="nonzero" d="M331 66h-19v10l19-10z"/><g><path fill="#fc0" fill-rule="nonzero" d="M313 53l6 18-9 3 3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M313 53l-6 18 9 3-3-21z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M302 87l15-11-5-7-10 18z"/><path fill="#fc0" fill-rule="nonzero" d="M302 87l6-18 9 3-15 15z"/><g><path fill="#fc0" fill-rule="nonzero" d="M295 66l15 11 6-7-21-4z"/><path fill="#fc0" fill-rule="nonzero" d="M295 66h19v10l-19-10z"/></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M343 129l6-18 9 3-15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M343 129l16-11-6-8-10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M366 129l-16-11 6-8 10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M366 129l-6-18-9 3 15 15z"/><g><path fill="#fc0" fill-rule="nonzero" d="M373 108l-16 11-5-8 21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M373 108h-19v9l19-9z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M336 108l16 11 5-8-21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M336 108h19v9l-19-9z"/><g><path fill="#fc0" fill-rule="nonzero" d="M355 95l-6 18 9 3-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M355 95l5 18-9 3 4-21z"/></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M336 222h19v9l-19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M336 222l16 11 5-8-21-3z"/><path fill="#fc0" fill-rule="nonzero" d="M343 243l6-18 9 3-15 15z"/><path fill="#fc0" fill-rule="nonzero" d="M343 243l16-11-6-8-10 19z"/><g><path fill="#fc0" fill-rule="nonzero" d="M366 243l-16-11 6-8 10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M366 243l-6-18-9 3 15 15z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M355 209l-6 18 9 3-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M355 209l5 18-9 3 4-21z"/><g><path fill="#fc0" fill-rule="nonzero" d="M373 222h-19v9l19-9z"/><path fill="#fc0" fill-rule="nonzero" d="M373 222l-16 11-5-8 21-3z"/></g></g></g><g><path fill="#fc0" fill-rule="nonzero" d="M295 263h19v10l-19-10z"/><path fill="#fc0" fill-rule="nonzero" d="M295 263l15 11 6-7-21-4z"/><path fill="#fc0" fill-rule="nonzero" d="M302 285l6-18 9 2-15 16z"/><path fill="#fc0" fill-rule="nonzero" d="M302 285l15-12-5-7-10 19z"/><g><path fill="#fc0" fill-rule="nonzero" d="M324 285l-15-12 5-7 10 19z"/><path fill="#fc0" fill-rule="nonzero" d="M324 285l-6-18-9 2 15 16z"/></g><g><path fill="#fc0" fill-rule="nonzero" d="M313 250l-6 18 9 3-3-21z"/><path fill="#fc0" fill-rule="nonzero" d="M313 250l6 18-9 3 3-21z"/><g><path fill="#fc0" fill-rule="nonzero" d="M331 263h-19v10l19-10z"/><path fill="#fc0" fill-rule="nonzero" d="M331 263l-15 11-6-7 21-4z"/></g></g></g></g></svg>
+		</div>
+	</div>
+</footer>
 
 </body>
 </html>
