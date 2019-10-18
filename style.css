@@ -290,23 +290,25 @@ button:hover {
   margin-top: 2em;
 }
 
+footer a {
+  color: var(--light-extra);
+}
+
+footer a:focus,
+footer a:hover {
+  color: var(--dark-extra);
+  box-shadow: none;
+  background-color: var(--highlight);
+}
+
 .github a {
   display: inline-flex;
   align-items: center;
-  color: var(--light-extra);
-  /* font-weight: bold; */
 }
 
 .github svg {
   height: 2em;
   margin-right: .5em;
-}
-
-.github a:focus,
-.github a:hover {
-  color: var(--dark-extra);
-  box-shadow: none;
-  background-color: var(--highlight);
 }
 
 .github a:focus svg > path,
