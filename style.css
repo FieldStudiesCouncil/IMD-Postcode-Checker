@@ -134,7 +134,7 @@ label {
   font-size: .85rem;
   font-weight: normal;
   color: var(--dark);
-  margin: .5em 0 -.5em 0;
+  margin: .5em 0 .5em 0;
 }
 
 .more-detail + br {
