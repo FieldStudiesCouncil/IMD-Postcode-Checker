@@ -210,7 +210,7 @@ $imd_data = $db->query(
 
 	<footer>
 		<div class="footer-content">
-			<p>The IMD Checker is a tiny thing made with <a href="https://gtmetrix.com/reports/www.fscbiodiversity.uk/NI7zKkRM">lean</a> but boring code, some open data, and plenty of ❤️.</p>
+			<p>The IMD Checker is a tiny thing made with <a href="https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fwww.fscbiodiversity.uk%2Fimd%2F&tab=mobile">lean</a> but boring code, some open data, and plenty of ❤️.</p>
 			<p>Copyright &copy; <?php echo gmdate( 'Y' ); ?> Charles Roper.</p>
 
 			<p class="footer-separate github">
@@ -225,7 +225,7 @@ $imd_data = $db->query(
 			<p>Contains Royal Mail data © Royal Mail copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
 			<p>Contains National Statistics data © Crown copyright and database rights <?php echo gmdate( 'Y' ); ?></p>
 
-			<p class="footer-separate">Made in The United Kingdom of Great Britain and Ireland, Europe.</p>
+			<p class="footer-separate">Made in The United Kingdom.</p>
 			<div class="flags">
 				<svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 512 342">
 					<path fill="#f0f0f0" d="M0 0h512v341H0z" />
