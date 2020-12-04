@@ -128,7 +128,7 @@ $imd_data = $db->query(
 
 	<p>This tool enables you to look up the Index of Multiple Deprivation rank for a list of postcodes. The lower the rank, the more deprived the area.</p>
 
-	<p>The results can be limited to a maximum decile value. A <i>decile</i> is a range divided into 10 chunks similar to the way a percentage is a range divided into 100 chunks. A decile of 1 means the postcode is in the bottom 10% of of the deprivation index, a decile of 2 means the postcode is in the bottom 20%, and so on.</p>
+	<p>The results can be limited to a maximum decile value. A <i>decile</i> is a range divided into 10 chunks similar to the way a percentage is a range divided into 100 chunks. A decile of 1 means the postcode is in the bottom 10% of the deprivation index, a decile of 2 means the postcode is in the bottom 20%, and so on.</p>
 
 	<h3>What is the IMD?</h3>
 
