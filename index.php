@@ -17,13 +17,13 @@ function get_postcodes_array() {
 // Get the decile value from the query string and validate it, or return a
 // default value if there is no user input
 function get_decile_int() {
-	$options = [
-		'options' => [
+	$options = array(
+		'options' => array(
 			'default'   => 10,
 			'min_range' => 1,
 			'max_range' => 10,
-		],
-	];
+		),
+	);
 
 	return filter_input( INPUT_GET, 'd', FILTER_VALIDATE_INT, $options );
 }
