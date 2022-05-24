@@ -38,9 +38,20 @@ weights:
 - [ONS Postcode Directory (ONSPD)](https://www.ons.gov.uk/methodology/geography/geographicalproducts/postcodeproducts) (last retrieved: 2019-10-17)
 - [English Index of Multiple Deprivation 2019 (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) (last retrieved: 2019-10-17)
 
+## Installing for local development
+
+This project is a dead simple single file PHP script plus a SQLite database. The database is rather large, so I distribute it as in a compressed 7zip file.
+
+1. Clone or download the code
+2. Extract the SQLite database file found in `db\imd.sqlite3.7z`. The `imd.sqlite3` file should be placed in the `db` folder.
+3. Start a local PHP server in the root directory of the project: ` php -S localhost:8000`
+4. Visit `http://localhost:8000`
+
+Note: you might need to [install PHP](https://www.php.net/manual/en/install.php) locally first. If you get errors, check your `php.ini` file and make sure `extension=pdo_sqlite` is enabled.
+
 ## Technical notes
 
-The tool is a single PHP file, a stylesheet and an SQLite database containing
+The tool is a single PHP file, a stylesheet and a SQLite database containing
 some stripped-back ONSPD and IMD data. Specifically, we're using only the
 following columns from those data sets:
 
