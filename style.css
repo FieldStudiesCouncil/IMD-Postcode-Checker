@@ -307,6 +307,11 @@ footer a:hover {
   align-items: center;
 }
 
+.github a:hover {
+	outline: 4px solid var(--highlight);
+  outline-offset: 0px;
+}
+
 .github svg {
   height: 2em;
   margin-right: .5em;
