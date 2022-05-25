@@ -40,7 +40,7 @@ weights:
 
 ## Installing for local development
 
-This project is a dead simple single file PHP script plus a SQLite database. The database is rather large, so I distribute it as in a compressed 7zip file.
+This project is a dead simple single file PHP script plus a SQLite database. The database is rather large, so I distribute it in a compressed 7zip file.
 
 1. Clone or download the code
 2. Extract the SQLite database file found in `db\imd.sqlite3.7z`. The `imd.sqlite3` file should be placed in the `db` folder.
