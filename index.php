@@ -2,7 +2,7 @@
 
 // Get postcodes from the query string, sanitize the input and convert to an
 // array
-function get_postcodes_array()
+function getPostcodesArray()
 {
     $safe_postcodes = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_STRING);
 
@@ -17,7 +17,7 @@ function get_postcodes_array()
 
 // Get the decile value from the query string and validate it, or return a
 // default value if there is no user input
-function get_decile_int()
+function getDecileInt()
 {
     $options = array(
         'options' => array(
@@ -30,7 +30,7 @@ function get_decile_int()
     return filter_input(INPUT_GET, 'd', FILTER_VALIDATE_INT, $options);
 }
 
-function add_quotes_and_comma($str)
+function addQuotesAndCommas($str)
 {
     if (!empty($str)) {
         $str = trim($str);
@@ -39,13 +39,13 @@ function add_quotes_and_comma($str)
 }
 
 // Convert the postcodes to comma-delimited quoted list; e.g., 'TN33 0PF','BN4 1UH'
-function postcodes_for_sql()
+function postcodesForSql()
 {
-    $postcodes = get_postcodes_array();
+    $postcodes = getPostcodesArray();
     $out       = '';
 
     foreach ($postcodes as $postcode) {
-        $out .= add_quotes_and_comma($postcode);
+        $out .= addQuotesAndCommas($postcode);
     }
 
     return rtrim($out, ',');
@@ -53,18 +53,18 @@ function postcodes_for_sql()
 
 // Convert postcodes from array to string with newline between each postcode so
 // they can be stuffed back into the textarea
-function postcodes_for_textarea()
+function postcodesForTextarea()
 {
-    $postcodes = get_postcodes_array();
+    $postcodes = getPostcodesArray();
 
     return implode("\n", $postcodes);
 }
 
 // Get either the current decile value from the query string, or an empty
 // string. This is used to populate the decile input field.
-function decile_for_input()
+function decileForInput()
 {
-    $decile = get_decile_int();
+    $decile = getDecileInt();
     if (!empty($_GET['d'])) {
         return $decile;
     } else {
@@ -73,7 +73,7 @@ function decile_for_input()
 }
 
 // Function to render the table rows populated with database data.
-function output_table_row($row, $fields)
+function outputTableRow($row, $fields)
 {
     $out = '<tr>';
     foreach ($fields as $field) {
@@ -83,8 +83,8 @@ function output_table_row($row, $fields)
     return $out;
 }
 
-$postcodes_for_sql = postcodes_for_sql();
-$decile_for_sql    = get_decile_int();
+$postcodes_for_sql = postcodesForSql();
+$decile_for_sql    = getDecileInt();
 
 // Initialise the SQLite database
 $db = new PDO('sqlite:./db/imd.sqlite3');
@@ -173,12 +173,12 @@ $imd_data = $db->query(
       <label for="postcodes">
         Enter Postcodes<br>
         <span class="more-detail">Enter one postcode per line. Press the <i>Search IMD</i> button when ready to check them against the IMD.</span><br>
-        <textarea id="postcodes" name="p" rows="6"><?php echo postcodes_for_textarea(); ?></textarea><br>
+        <textarea id="postcodes" name="p" rows="6"><?php echo postcodesForTextarea(); ?></textarea><br>
       </label>
       <label for="decile">
         Max Decile
         <span class="more-detail">Enter a number between 1 and 10, with 1 being the bottom 10%, 2 the bottom 20% and so on. <strong>Leave blank to include all deciles.</strong></span>
-        <input type="number" min="1" max="10" name="d" id="decile" value="<?php echo decile_for_input(); ?>">
+        <input type="number" min="1" max="10" name="d" id="decile" value="<?php echo decileForInput(); ?>">
       </label>
       <button type="submit">Search IMD</button>
     </form><br>
@@ -205,7 +205,7 @@ $imd_data = $db->query(
 
             if ($row_count > 0) {
                 foreach ($imd_data as $row) {
-                    echo output_table_row($row, $fields_to_output);
+                    echo outputTableRow($row, $fields_to_output);
                 }
                 echo '</table>';
             } else {
