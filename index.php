@@ -227,7 +227,7 @@ $imd_data = $db->query(
       </p>
 
       <p class="footer-separate github">
-        <a href="https://github.com/charlesroper/IMD-Postcode-Checker">
+        <a href="https://github.com/FieldStudiesCouncil/IMD-Postcode-Checker">
           <svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 136 133">
             <path fill="#fff" d="M68 0a68 68 0 00-22 132c4 1 5-1 5-3v-12c-19 5-23-9-23-9-3-7-7-10-7-10-7-4 0-4 0-4 7 1 10 7 10 7 6 11 16 8 20 6l4-9c-15-2-30-8-30-34 0-7 2-13 7-18-1-2-3-9 0-18 0 0 6-2 19 7a65 65 0 0134 0c13-9 19-7 19-7 3 9 1 16 0 18 5 5 7 11 7 18 0 26-16 32-31 34 3 2 5 6 5 12v19c0 2 1 4 4 3A68 68 0 0068 0" />
           </svg>Source available on GitHub.
