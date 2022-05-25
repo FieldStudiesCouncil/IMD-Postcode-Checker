@@ -122,7 +122,7 @@ $imd_data = $db->query(
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="description" content="This simple tool enables you to look up the Index of Multiple Deprivation (IMD) rank for a list of postcodes.">
   <title>IMD Postcode Checker</title>
-  <link rel="stylesheet" href="./style.css?v=4">
+  <link rel="stylesheet" href="./style.css?v=5">
 </head>
 
 <body>
