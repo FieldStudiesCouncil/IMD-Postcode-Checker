@@ -1,5 +1,10 @@
 # IMD Postcode Checker
 
+> **Note:** 
+> The primary repo for this project has moved here: https://github.com/charlesroper/IMD-Postcode-Checker.
+>
+> This repo will live on as a read-only archive.
+
 The IMD Postcode Checker is a tiny thing made with lean but boring code,
 open data and plenty of ❤️.
 
